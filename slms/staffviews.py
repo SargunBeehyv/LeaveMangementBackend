@@ -1,11 +1,10 @@
 
-from slmsapp.models import CustomUser, Staff, Staff_Leave
+from slmsapp.models import Staff, Staff_Leave
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import StaffLeaveSerializer, CustomUserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
-from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET'])

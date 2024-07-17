@@ -1,12 +1,6 @@
 
-# Import your custom authentication backend
-from slmsapp.EmailBackEnd import EmailBackEnd
 from slmsapp.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import login
-
-
-from django.contrib.auth import login
-from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -25,17 +19,11 @@ def views_Login(request):
             username = data.get('email')
             password = data.get('password')
 
-            # Authenticate user using custom EmailBackEnd
             user = EmailBackEnd().authenticate(username=username, password=password)
 
             if user is not None:
-                # Login the user
                 login(request, user)
-
-                # Generate or retrieve token
                 token, created = Token.objects.get_or_create(user=user)
-
-                # Determine redirect URL based on user_type
                 user_type = user.user_type
                 if user_type == 1:
                     return JsonResponse({'status': 'success', 'token': token.key, 'redirect_url': 'admin/dashboard'})
