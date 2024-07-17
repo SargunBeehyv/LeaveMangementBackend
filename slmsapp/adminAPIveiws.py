@@ -79,23 +79,35 @@ def delete_staff(request, admin):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def staff_leave_view(request):
-    staff_leave = Staff_Leave.objects.filter(staff_id=request.user.staff)
+    if request.user.user_type == 1:  # Assuming user_type 1 is for admin
+        staff_leave = Staff_Leave.objects.all()
+    else:
+        staff_leave = Staff_Leave.objects.filter(staff_id=request.user.staff)
     serializer = StaffLeaveSerializer(staff_leave, many=True)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
 def staff_approve_leave(request, id):
-    leave = get_object_or_404(Staff_Leave, id=id, staff_id=request.user_type)
-    leave.status = 1
-    leave.save()
-    return Response({'detail': 'Leave approved'}, status=status.HTTP_200_OK)
+    if request.user.user_type == 1:  # Only admin can approve leave
+        leave = get_object_or_404(Staff_Leave, id=id)
+        leave.status = 1
+        leave.save()
+        serializer = StaffLeaveSerializer(leave)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'detail': 'You are not authorized to approve leave'}, status=status.HTTP_403_FORBIDDEN)
 
 
 @api_view(['POST'])
 def staff_disapprove_leave(request, id):
-    leave = get_object_or_404(Staff_Leave, id=id, staff_id=request.user.staff)
-    leave.status = 2
-    leave.save()
-    return Response({'detail': 'Leave disapproved'}, status=status.HTTP_200_OK)
+    if request.user.user_type == 1:  # Only admin can disapprove leave
+        leave = get_object_or_404(Staff_Leave, id=id)
+        leave.status = 2
+        leave.save()
+        serializer = StaffLeaveSerializer(leave)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'detail': 'You are not authorized to disapprove leave'}, status=status.HTTP_403_FORBIDDEN)
