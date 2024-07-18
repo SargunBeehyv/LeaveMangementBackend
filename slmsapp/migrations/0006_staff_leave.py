@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Staff_Leave',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('leave_type', models.CharField(max_length=100)),
                 ('from_date', models.CharField(max_length=100)),
                 ('to_date', models.CharField(max_length=100)),
@@ -22,7 +23,8 @@ class Migration(migrations.Migration):
                 ('status', models.IntegerField(default=0)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now_add=True)),
-                ('staff_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='slmsapp.staff')),
+                ('staff_id', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='slmsapp.staff')),
             ],
         ),
     ]

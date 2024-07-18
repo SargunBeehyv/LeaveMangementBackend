@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -42,8 +35,9 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey('SlmsappCustomuser', models.DO_NOTHING)
+    content_type = models.ForeignKey(
+        'DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey('slmsappCustomuser', models.DO_NOTHING)
     action_time = models.DateTimeField()
 
     class Meta:
@@ -81,7 +75,7 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class SlmsappCustomuser(models.Model):
+class slmsappCustomuser(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
@@ -100,8 +94,8 @@ class SlmsappCustomuser(models.Model):
         db_table = 'slmsapp_customuser'
 
 
-class SlmsappCustomuserGroups(models.Model):
-    customuser = models.ForeignKey(SlmsappCustomuser, models.DO_NOTHING)
+class slmsappCustomuserGroups(models.Model):
+    customuser = models.ForeignKey(slmsappCustomuser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
 
     class Meta:
@@ -110,8 +104,8 @@ class SlmsappCustomuserGroups(models.Model):
         unique_together = (('customuser', 'group'),)
 
 
-class SlmsappCustomuserUserPermissions(models.Model):
-    customuser = models.ForeignKey(SlmsappCustomuser, models.DO_NOTHING)
+class slmsappCustomuserUserPermissions(models.Model):
+    customuser = models.ForeignKey(slmsappCustomuser, models.DO_NOTHING)
     permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
 
     class Meta:
@@ -120,19 +114,19 @@ class SlmsappCustomuserUserPermissions(models.Model):
         unique_together = (('customuser', 'permission'),)
 
 
-class SlmsappStaff(models.Model):
+class slmsappStaff(models.Model):
     address = models.TextField()
     gender = models.CharField(max_length=100)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    admin = models.OneToOneField(SlmsappCustomuser, models.DO_NOTHING)
+    admin = models.OneToOneField(slmsappCustomuser, models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'slmsapp_staff'
 
 
-class SlmsappStaffLeave(models.Model):
+class slmsappStaffLeave(models.Model):
     leave_type = models.CharField(max_length=100)
     from_date = models.CharField(max_length=100)
     to_date = models.CharField(max_length=100)
@@ -140,7 +134,7 @@ class SlmsappStaffLeave(models.Model):
     status = models.IntegerField()
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    staff_id = models.ForeignKey(SlmsappStaff, models.DO_NOTHING)
+    staff_id = models.ForeignKey(slmsappStaff, models.DO_NOTHING)
 
     class Meta:
         managed = False

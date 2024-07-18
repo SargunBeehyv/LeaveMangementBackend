@@ -34,7 +34,6 @@ class Staff_Leave(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     message = models.TextField()
-    # 0: Pending, 1: Approved, 2: Not Approved
     status = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

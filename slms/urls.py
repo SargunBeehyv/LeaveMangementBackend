@@ -14,14 +14,11 @@ urlpatterns = [
     path('api/dashboard/', staffviews.get_dashboard_data, name='dashboard'),
     path('api/user/profile/', staffviews.get_logged_in_user_details,
          name='user-profile'),
+
     path('api/employees/', adminviews.employees_list, name='employees_list'),
     path('api/employees/<int:employee_id>/',
          adminviews.delete_employee, name='delete_employee'),
-    path('api/leave-requests/<int:request_id>/approve/',
-         adminviews.approve_leave_request, name='approve_leave_request'),
-    path('api/leave-requests/<int:request_id>/reject/',
-         adminviews.reject_leave_request, name='reject_leave_request'),
-    path('admin/', admin.site.urls),
+
     path('api/set_csrf_token/', adminAPIveiws.set_csrf_token),
     path('api/home/', adminAPIveiws.home, name='home'),
     path('api/add_staff/', adminAPIveiws.add_staff, name='add_staff'),

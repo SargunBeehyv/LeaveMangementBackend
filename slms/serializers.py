@@ -1,4 +1,4 @@
-# serializers.py
+
 from rest_framework import serializers
 from slmsapp.models import CustomUser, Staff, Staff_Leave
 

@@ -3,9 +3,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from slmsapp.models import CustomUser, Staff, Staff_Leave
-from slmsapp.adminSerializers import CustomUserSerializer, StaffSerializer, StaffLeaveSerializer
+from slmsapp.adminSerializers import StaffSerializer, StaffLeaveSerializer
 from django.shortcuts import get_object_or_404
-from django.db import transaction
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 
@@ -81,7 +80,7 @@ def delete_staff(request, admin):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def staff_leave_view(request):
-    if request.user.user_type == 1:  # Assuming user_type 1 is for admin
+    if request.user.user_type == 1:
         staff_leave = Staff_Leave.objects.all()
     else:
         staff_leave = Staff_Leave.objects.filter(staff_id=request.user.staff)
@@ -91,7 +90,7 @@ def staff_leave_view(request):
 
 @api_view(['POST'])
 def staff_approve_leave(request, id):
-    if request.user.user_type == 1:  # Only admin can approve leave
+    if request.user.user_type == 1:
         leave = get_object_or_404(Staff_Leave, id=id)
         leave.status = 1
         leave.save()
@@ -103,7 +102,7 @@ def staff_approve_leave(request, id):
 
 @api_view(['POST'])
 def staff_disapprove_leave(request, id):
-    if request.user.user_type == 1:  # Only admin can disapprove leave
+    if request.user.user_type == 1:
         leave = get_object_or_404(Staff_Leave, id=id)
         leave.status = 2
         leave.save()
