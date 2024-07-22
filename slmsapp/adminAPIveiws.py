@@ -57,24 +57,11 @@ def add_staff(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def view_staff(request):
     staff = Staff.objects.all()
     serializer = StaffSerializer(staff, many=True)
     return Response(serializer.data)
-
-
-@api_view(['GET'])
-def edit_staff(request, id):
-    staff = get_object_or_404(Staff, id=id)
-    serializer = StaffSerializer(staff)
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def delete_staff(request, admin):
-    staff = get_object_or_404(CustomUser, id=admin)
-    staff.delete()
-    return Response({'detail': 'Staff record has been deleted successfully'}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -89,6 +76,7 @@ def staff_leave_view(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def staff_approve_leave(request, id):
     if request.user.user_type == 1:
         leave = get_object_or_404(Staff_Leave, id=id)
@@ -101,6 +89,7 @@ def staff_approve_leave(request, id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def staff_disapprove_leave(request, id):
     if request.user.user_type == 1:
         leave = get_object_or_404(Staff_Leave, id=id)
