@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/login/', views.views_Login, name='views_Login'),
+    path('api/logout/', views.logout_user, name='logout'),
     path('api/leave-history/', staffviews.get_leave_history, name='leave_history'),
     path('api/apply-leave/', staffviews.apply_leave, name='apply_leave'),
     path('api/dashboard/', staffviews.get_dashboard_data, name='dashboard'),

@@ -1,6 +1,9 @@
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from slmsapp.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import login
+from rest_framework.response import Response
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
@@ -12,6 +15,7 @@ User = get_user_model()
 
 
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def views_Login(request):
     if request.method == 'POST':
         try:
@@ -41,3 +45,11 @@ def views_Login(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'fail', 'message': 'Only POST method is allowed'}, status=405)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_user(request):
+    if request.auth:
+        request.auth.delete()
+    return Response({'status': 'success'}, status=200)
