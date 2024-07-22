@@ -68,9 +68,10 @@ def view_staff(request):
 @permission_classes([IsAuthenticated])
 def staff_leave_view(request):
     if request.user.user_type == 1:
-        staff_leave = Staff_Leave.objects.all()
+        staff_leave = Staff_Leave.objects.all().order_by('-created_at')
     else:
-        staff_leave = Staff_Leave.objects.filter(staff_id=request.user.staff)
+        staff_leave = Staff_Leave.objects.filter(
+            staff_id=request.user.staff).order_by('-created_at')
     serializer = StaffLeaveSerializer(staff_leave, many=True)
     return Response(serializer.data)
 
